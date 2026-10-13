@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   Asterisk,
+  BookOpen,
   Code2,
   Download,
   Globe2,
   Layers3,
   Mail,
+  MessageCircle,
+  Microscope,
   Sparkles,
+  Store,
 } from "lucide-react";
 import "./App.css";
 
@@ -28,56 +32,47 @@ const techStack = ["React", "TypeScript", "JavaScript", "CSS", "Figma", "Git"];
 const projects = [
   {
     number: "01",
-    name: "Morrow",
-    className: "project-image--morrow",
-    category: { ar: "متجر أثاث وديكور", en: "Furniture & living" },
+    name: "BreastPath AI",
+    className: "project-image--breastpath",
+    icon: <Microscope size={64} strokeWidth={1.1} />,
+    category: {
+      ar: "مشروع أكاديمي · كشف مبكر لسرطان الثدي",
+      en: "Academic project · Early breast cancer detection",
+    },
     description: {
-      ar: "تجربة تجارة إلكترونية هادئة، تضع المنتجات في الواجهة وتسهّل قرار الشراء.",
-      en: "A calm e-commerce experience that puts the products first and makes buying feel effortless.",
+      ar: "واجهة ويب لرفع صور الأنسجة (Histopathology) وعرض النتيجة والتقارير، ضمن مشروع للكشف المبكر عن سرطان الثدي بالذكاء الاصطناعي.",
+      en: "A web interface for uploading histopathology images and reviewing results and reports, part of an AI project for early breast cancer detection.",
     },
-    image:
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85",
-    alt: {
-      ar: "مساحة معيشة عصرية بألوان هادئة",
-      en: "A modern, softly styled living room",
-    },
-    tags: ["React", "TypeScript", "Commerce"],
-    link: "", // رابط المشروع الحقيقي (لو اتحط، علامة "مفاهيمي" بتختفي)
+    status: { ar: "قيد التطوير", en: "In development" },
+    tags: ["React", "Vite", "AI"],
+    link: "", // رابط المشروع لما يجهز (GitHub أو رابط مباشر)
   },
   {
     number: "02",
-    name: "Elsewhere",
-    className: "project-image--elsewhere",
-    category: { ar: "دليل سفر وتجارب", en: "Travel & experiences" },
+    name: "SmartSystem",
+    className: "project-image--smartsystem",
+    icon: <Store size={64} strokeWidth={1.1} />,
+    category: { ar: "نظام إدارة للمحلات", en: "Shop management system" },
     description: {
-      ar: "منصة سفر تحريرية تحوّل البحث عن وجهتك القادمة إلى جزء من الرحلة.",
-      en: "An editorial travel platform that makes finding your next destination part of the journey.",
+      ar: "نظام إدارة للمحلات بواجهة عربية (RTL) تدعم الوضع الفاتح والداكن والموبايل، مع لوحة تحكم واحدة تجمع أنواع المحلات المختلفة.",
+      en: "A shop management system with an Arabic-first (RTL) interface, light and dark modes, mobile support, and one dashboard for different kinds of shops.",
     },
-    image:
-      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=85",
-    alt: {
-      ar: "بحيرة جبلية بين قمم خضراء",
-      en: "A mountain lake framed by green peaks",
-    },
-    tags: ["React", "Maps", "Motion"],
+    status: { ar: "قيد التطوير", en: "In development" },
+    tags: ["React", "RTL", "Dashboard"],
     link: "",
   },
   {
     number: "03",
-    name: "Forma",
-    className: "project-image--forma",
-    category: { ar: "استوديو تصميم رقمي", en: "Digital design studio" },
+    name: "Study Platform",
+    className: "project-image--study",
+    icon: <BookOpen size={64} strokeWidth={1.1} />,
+    category: { ar: "منصة مذاكرة بالذكاء الاصطناعي", en: "AI study platform" },
     description: {
-      ar: "موقع لاستوديو إبداعي، بإيقاع بصري واضح ومساحة كافية لكل تفصيلة.",
-      en: "A studio site with a considered visual rhythm and room for every detail to breathe.",
+      ar: "موقع يحوّل الملاحظات وملفات PDF إلى بطاقات مراجعة (Flashcards) واختبارات قصيرة بالذكاء الاصطناعي.",
+      en: "A website that turns notes and PDFs into flashcards and quizzes using AI.",
     },
-    image:
-      "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=85",
-    alt: {
-      ar: "استوديو عمل مشرق بتصميم بسيط",
-      en: "A bright, minimal creative studio",
-    },
-    tags: ["React", "Design systems", "A11y"],
+    status: { ar: "قيد التطوير", en: "In development" },
+    tags: ["React", "Vite", "AI"],
     link: "",
   },
 ];
@@ -97,12 +92,14 @@ const translations = {
     contact: "ابدأ مشروعًا",
     cv: "حمّل السيرة الذاتية",
     viewProject: "زيارة المشروع",
+    copyEmail: "نسخ الإيميل",
+    copied: "تم النسخ ✓",
+    whatsappLabel: "تواصل عبر واتساب",
     heroNote: "واجهة مدروسة. تجربة أسرع.",
     scroll: "اكتشف المزيد",
     workEyebrow: "مختارات من أعمالي",
     workTitle: "أفكار، صارت",
     workAccent: "تجارب.",
-    concepts: "مشروع مفاهيمي",
     aboutEyebrow: "أهلًا، أنا مطور واجهات",
     aboutTitle: "الكود الجيد يُشعرك أن كل شيء في مكانه.",
     aboutText:
@@ -135,12 +132,14 @@ const translations = {
     contact: "Start a project",
     cv: "Download CV",
     viewProject: "View project",
+    copyEmail: "Copy email",
+    copied: "Copied ✓",
+    whatsappLabel: "Chat on WhatsApp",
     heroNote: "Thoughtful UI. Faster experiences.",
     scroll: "Scroll to explore",
     workEyebrow: "A selection of work",
     workTitle: "Ideas made",
     workAccent: "tangible.",
-    concepts: "Concept project",
     aboutEyebrow: "A little about me",
     aboutTitle: "Good code feels like everything is in its place.",
     aboutText:
@@ -184,33 +183,122 @@ function App() {
     }
   }, [isArabic, language]);
 
+  const [activeSection, setActiveSection] = useState("");
+  const [copied, setCopied] = useState(false);
+  const progressRef = useRef(null);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
+
+  useEffect(() => {
+    const onScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      if (progressRef.current) {
+        progressRef.current.style.transform = `scaleX(${ratio})`;
+      }
+      if (window.scrollY < 200) setActiveSection("");
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    const sections = ["work", "about", "contact"]
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveSection(entry.target.id);
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const items = document.querySelectorAll(
+      ".section-heading, .project, .about-visual, .about-copy, .contact-content",
+    );
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    items.forEach((item) => {
+      item.classList.add("reveal");
+      observer.observe(item);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <main>
-      <header className="site-header" id="top">
-        <a className="wordmark" href="#top" aria-label={profile.name}>
-          <span className="wordmark-icon" aria-hidden="true">
-            &lt;/&gt;
-          </span>
-          <span className="wordmark-name">{profile.name}</span>
-        </a>
-        <nav
-          className="main-nav"
-          aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}
-        >
-          <a href="#work">{copy.navWork}</a>
-          <a href="#about">{copy.navAbout}</a>
-          <a href="#contact">{copy.navContact}</a>
-        </nav>
-        <button
-          className="language-toggle"
-          type="button"
-          onClick={() => setLanguage(isArabic ? "en" : "ar")}
-          aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}
-        >
-          <Globe2 size={16} strokeWidth={1.8} />
-          <span>{isArabic ? "EN" : "عربي"}</span>
-        </button>
-      </header>
+      <div className="header-bar">
+        <header className="site-header" id="top">
+          <a className="wordmark" href="#top" aria-label={profile.name}>
+            <span className="wordmark-icon" aria-hidden="true">
+              &lt;/&gt;
+            </span>
+            <span className="wordmark-name">{profile.name}</span>
+          </a>
+          <nav
+            className="main-nav"
+            aria-label={isArabic ? "التنقل الرئيسي" : "Main navigation"}
+          >
+            <a
+              href="#work"
+              className={activeSection === "work" ? "is-active" : undefined}
+            >
+              {copy.navWork}
+            </a>
+            <a
+              href="#about"
+              className={activeSection === "about" ? "is-active" : undefined}
+            >
+              {copy.navAbout}
+            </a>
+            <a
+              href="#contact"
+              className={activeSection === "contact" ? "is-active" : undefined}
+            >
+              {copy.navContact}
+            </a>
+          </nav>
+          <button
+            className="language-toggle"
+            type="button"
+            onClick={() => setLanguage(isArabic ? "en" : "ar")}
+            aria-label={isArabic ? "Switch to English" : "التبديل إلى العربية"}
+          >
+            <Globe2 size={16} strokeWidth={1.8} />
+            <span>{isArabic ? "EN" : "عربي"}</span>
+          </button>
+        </header>
+        <div className="scroll-progress" ref={progressRef} aria-hidden="true" />
+      </div>
 
       <section className="hero section-shell" aria-labelledby="hero-title">
         <div className="hero-copy">
@@ -308,17 +396,13 @@ function App() {
           {projects.map((project) => (
             <article className="project" key={project.number}>
               <div className={`project-image ${project.className}`}>
-                <img
-                  src={project.image}
-                  alt={project.alt[language]}
-                  loading="lazy"
-                />
-                {!project.link && (
-                  <span className="concept-tag">
-                    <span />
-                    {copy.concepts}
-                  </span>
-                )}
+                <div className="project-art" aria-hidden="true">
+                  {project.icon}
+                </div>
+                <span className="concept-tag">
+                  <span />
+                  {project.status[language]}
+                </span>
                 <span className="project-number">{project.number}</span>
                 {project.link && (
                   <a
@@ -446,6 +530,9 @@ function App() {
                 LinkedIn
               </a>
             )}
+            <button type="button" onClick={copyEmail}>
+              {copied ? copy.copied : copy.copyEmail}
+            </button>
           </div>
         </div>
         <div className="contact-decoration" aria-hidden="true">
@@ -468,6 +555,15 @@ function App() {
           <ArrowUpRight size={14} />
         </a>
       </footer>
+      <a
+        className="whatsapp-float"
+        href={profile.whatsapp}
+        target="_blank"
+        rel="noreferrer"
+        aria-label={copy.whatsappLabel}
+      >
+        <MessageCircle size={24} strokeWidth={1.8} />
+      </a>
     </main>
   );
 }

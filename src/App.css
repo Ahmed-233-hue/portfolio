@@ -337,15 +337,6 @@ html[lang="ar"] .section-heading h2 {
 .project:hover .project-image img {
   transform: scale(1.045);
 }
-.project-image--morrow img {
-  object-position: 52% center;
-}
-.project-image--elsewhere img {
-  object-position: center;
-}
-.project-image--forma img {
-  object-position: center;
-}
 .concept-tag {
   position: absolute;
   top: 13px;
@@ -991,4 +982,127 @@ a.project-open {
 .project-open:focus-visible {
   opacity: 1;
   transform: none;
+}
+
+.project-art {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--orange);
+  background:
+    radial-gradient(circle at 70% 25%, #2a7a7355, transparent 60%),
+    linear-gradient(135deg, #0b3a3d, #031f25);
+  transition: transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.project-art::before {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background-image:
+    linear-gradient(#52e9d210 1px, transparent 1px),
+    linear-gradient(90deg, #52e9d210 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.project-art svg {
+  position: relative;
+  filter: drop-shadow(0 0 18px #36dfcc66);
+}
+.project:hover .project-art {
+  transform: scale(1.045);
+}
+.project-image--smartsystem .project-art {
+  background:
+    radial-gradient(circle at 25% 70%, #2a7a7355, transparent 60%),
+    linear-gradient(135deg, #0b3a3d, #031f25);
+}
+.project-image--study .project-art {
+  background:
+    radial-gradient(circle at 50% 30%, #2a7a7355, transparent 60%),
+    linear-gradient(135deg, #0b3a3d, #031f25);
+}
+
+main {
+  overflow: clip;
+}
+html[lang] {
+  scroll-padding-top: 96px;
+}
+.header-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #062d32d9;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+.scroll-progress {
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+html[dir="rtl"] .scroll-progress {
+  transform-origin: right;
+}
+.main-nav a.is-active {
+  color: var(--orange-dark);
+}
+.social-links {
+  flex-wrap: wrap;
+}
+.social-links button {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: #c6c4bf;
+  font: 600 14px/1 var(--sans);
+  transition: color 0.2s ease;
+}
+.social-links button:hover {
+  color: var(--orange-dark);
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+.project:nth-child(2).reveal {
+  transition-delay: 0.08s;
+}
+.project:nth-child(3).reveal {
+  transition-delay: 0.16s;
+}
+.whatsapp-float {
+  position: fixed;
+  inset-inline-end: 20px;
+  bottom: 20px;
+  z-index: 50;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #062d32;
+  box-shadow: 0 10px 30px #00000066;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
+}
+.whatsapp-float:hover {
+  transform: translateY(-3px);
+  background: var(--orange-dark);
+}
+@media (max-width: 620px) {
+  html[lang] {
+    scroll-padding-top: 128px;
+  }
 }
