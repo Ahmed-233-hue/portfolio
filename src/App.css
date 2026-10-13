@@ -499,7 +499,7 @@ html[lang="ar"] .about-copy > h2 {
   grid-template-columns: 30px 1fr 18px;
   align-items: center;
   gap: 10px;
-  border-bottom: 1px solid #dedbd2;
+  border-bottom: 1px solid var(--line);
 }
 .capability-index {
   color: var(--orange);
@@ -559,7 +559,7 @@ html[lang="ar"] .about-copy > h2 {
   color: #c6c4bf;
 }
 .contact-topline .section-eyebrow > span {
-  color: #ff9670;
+  color: var(--orange);
 }
 .contact-content {
   position: relative;
@@ -962,4 +962,21 @@ html[lang="ar"] .contact-content h2 {
   .contact-content > p {
     font-size: 14px;
   }
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 22px;
+}
+.social-links a {
+  color: #c6c4bf;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+.social-links a:hover {
+  color: var(--orange-dark);
 }

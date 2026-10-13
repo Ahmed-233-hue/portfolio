@@ -13,7 +13,15 @@ import {
 } from "lucide-react";
 import "./App.css";
 
-const profile = { name: "Eng. Ahmed Attia Tolbah", email: "hello@example.com" };
+const profile = {
+  name: "Eng. Ahmed Attia Tolbah",
+  email: "aatia0527@gmail.com",
+  github: "https://github.com/Ahmed-233-hue",
+  linkedin: "", // حط رابط LinkedIn هنا لو عندك، وهيظهر لوحده
+  whatsapp: "https://wa.me/201096359320",
+};
+
+const techStack = ["React", "TypeScript", "JavaScript", "CSS", "Figma", "Git"];
 
 const projects = [
   {
@@ -359,14 +367,7 @@ function App() {
             <div className="tech-stack">
               <span className="tech-label">{copy.techLabel}</span>
               <div className="tech-list">
-                {[
-                  "React",
-                  "TypeScript",
-                  "JavaScript",
-                  "CSS",
-                  "Figma",
-                  "Git",
-                ].map((item) => (
+                {techStack.map((item) => (
                   <span key={item}>{item}</span>
                 ))}
               </div>
@@ -396,6 +397,19 @@ function App() {
               <ArrowUpRight size={21} />
             </span>
           </a>
+          <div className="social-links">
+            <a href={profile.whatsapp} target="_blank" rel="noreferrer">
+              WhatsApp
+            </a>
+            <a href={profile.github} target="_blank" rel="noreferrer">
+              GitHub
+            </a>
+            {profile.linkedin && (
+              <a href={profile.linkedin} target="_blank" rel="noreferrer">
+                LinkedIn
+              </a>
+            )}
+          </div>
         </div>
         <div className="contact-decoration" aria-hidden="true">
           <Asterisk size={164} strokeWidth={0.75} />
