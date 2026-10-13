@@ -1,0 +1,137 @@
+:root {
+  --paper: #062d32;
+  --soft: #0b3a3d;
+  --ink: #e5f6f3;
+  --muted: #a0bfba;
+  --line: #1e5558;
+  --orange: #36dfcc;
+  --orange-dark: #82f3e4;
+  --sans: "DM Sans", "Noto Sans Arabic", sans-serif;
+  --display: "Manrope", "Noto Sans Arabic", sans-serif;
+  --arabic: "Noto Sans Arabic", sans-serif;
+  --mono: "SFMono-Regular", Consolas, monospace;
+  color: var(--ink);
+  color-scheme: dark;
+  font-family: var(--sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+html {
+  min-width: 320px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 24px;
+}
+body {
+  min-width: 320px;
+  margin: 0;
+  isolation: isolate;
+  background: var(--paper);
+}
+body::before,
+body::after {
+  position: fixed;
+  z-index: -1;
+  inset-inline: 0;
+  content: "";
+  pointer-events: none;
+}
+body::before {
+  inset-block: -120px;
+  background-image:
+    linear-gradient(
+      120deg,
+      transparent 48%,
+      #36dfcc22 49%,
+      #36dfcc22 49.3%,
+      transparent 50%
+    ),
+    linear-gradient(#52e9d20c 1px, transparent 1px),
+    linear-gradient(90deg, #52e9d20c 1px, transparent 1px);
+  background-size:
+    320px 320px,
+    80px 80px,
+    80px 80px;
+  animation: grid-drift 32s linear infinite;
+}
+body::after {
+  top: -32vh;
+  height: 30vh;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    #35e1d018 48%,
+    #35e1d02a 50%,
+    #35e1d018 52%,
+    transparent
+  );
+  animation: scan-pass 14s ease-in-out infinite;
+}
+#root {
+  position: relative;
+  isolation: isolate;
+}
+body,
+button,
+a {
+  font-family: var(--sans);
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--orange-dark);
+  outline-offset: 4px;
+}
+img {
+  max-width: 100%;
+}
+::selection {
+  color: #042a2f;
+  background: var(--orange);
+}
+
+@keyframes grid-drift {
+  to {
+    background-position:
+      320px 320px,
+      80px 80px,
+      80px 80px;
+  }
+}
+
+@keyframes scan-pass {
+  0%,
+  12% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  28% {
+    opacity: 0.8;
+  }
+  78% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: translateY(145vh);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  body::before,
+  body::after {
+    animation: none;
+  }
+}
