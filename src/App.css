@@ -980,3 +980,15 @@ html[lang="ar"] .contact-content h2 {
 .social-links a:hover {
   color: var(--orange-dark);
 }
+
+.hero-actions {
+  flex-wrap: wrap;
+}
+a.project-open {
+  color: #062d32;
+  text-decoration: none;
+}
+.project-open:focus-visible {
+  opacity: 1;
+  transform: none;
+}

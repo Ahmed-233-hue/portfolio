@@ -6,6 +6,7 @@ import {
   ArrowUpRight,
   Asterisk,
   Code2,
+  Download,
   Globe2,
   Layers3,
   Mail,
@@ -19,6 +20,7 @@ const profile = {
   github: "https://github.com/Ahmed-233-hue",
   linkedin: "", // حط رابط LinkedIn هنا لو عندك، وهيظهر لوحده
   whatsapp: "https://wa.me/201096359320",
+  cv: "", // حط ملف الـ CV في فولدر public وكتب هنا مثلاً "/cv.pdf"، والزرار هيظهر لوحده
 };
 
 const techStack = ["React", "TypeScript", "JavaScript", "CSS", "Figma", "Git"];
@@ -40,6 +42,7 @@ const projects = [
       en: "A modern, softly styled living room",
     },
     tags: ["React", "TypeScript", "Commerce"],
+    link: "", // رابط المشروع الحقيقي (لو اتحط، علامة "مفاهيمي" بتختفي)
   },
   {
     number: "02",
@@ -57,6 +60,7 @@ const projects = [
       en: "A mountain lake framed by green peaks",
     },
     tags: ["React", "Maps", "Motion"],
+    link: "",
   },
   {
     number: "03",
@@ -74,6 +78,7 @@ const projects = [
       en: "A bright, minimal creative studio",
     },
     tags: ["React", "Design systems", "A11y"],
+    link: "",
   },
 ];
 
@@ -90,6 +95,8 @@ const translations = {
       "أبني واجهات ويب سريعة، واضحة، ومصممة بعناية. أحوّل الأفكار المعقدة إلى تجارب رقمية بسيطة وممتعة باستخدام React.",
     seeWork: "شاهد أعمالي",
     contact: "ابدأ مشروعًا",
+    cv: "حمّل السيرة الذاتية",
+    viewProject: "زيارة المشروع",
     heroNote: "واجهة مدروسة. تجربة أسرع.",
     scroll: "اكتشف المزيد",
     workEyebrow: "مختارات من أعمالي",
@@ -126,6 +133,8 @@ const translations = {
       "I build fast, thoughtful web interfaces. Turning complex ideas into clear, delightful digital experiences with React.",
     seeWork: "Explore my work",
     contact: "Start a project",
+    cv: "Download CV",
+    viewProject: "View project",
     heroNote: "Thoughtful UI. Faster experiences.",
     scroll: "Scroll to explore",
     workEyebrow: "A selection of work",
@@ -153,7 +162,14 @@ const translations = {
 };
 
 function App() {
-  const [language, setLanguage] = useState("ar");
+  const [language, setLanguage] = useState(() => {
+    try {
+      const saved = localStorage.getItem("language");
+      return saved === "en" || saved === "ar" ? saved : "ar";
+    } catch {
+      return "ar";
+    }
+  });
   const isArabic = language === "ar";
   const copy = translations[language];
   const Arrow = isArabic ? ArrowLeft : ArrowRight;
@@ -161,6 +177,11 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = language;
     document.documentElement.dir = isArabic ? "rtl" : "ltr";
+    try {
+      localStorage.setItem("language", language);
+    } catch {
+      // التخزين غير متاح، مفيش مشكلة
+    }
   }, [isArabic, language]);
 
   return (
@@ -213,6 +234,12 @@ function App() {
               {copy.contact}
               <Arrow size={17} strokeWidth={1.8} />
             </a>
+            {profile.cv && (
+              <a className="button button-text" href={profile.cv} download>
+                {copy.cv}
+                <Download size={17} strokeWidth={1.8} />
+              </a>
+            )}
           </div>
           <a className="scroll-cue" href="#work">
             <span className="scroll-icon">
@@ -286,14 +313,24 @@ function App() {
                   alt={project.alt[language]}
                   loading="lazy"
                 />
-                <span className="concept-tag">
-                  <span />
-                  {copy.concepts}
-                </span>
+                {!project.link && (
+                  <span className="concept-tag">
+                    <span />
+                    {copy.concepts}
+                  </span>
+                )}
                 <span className="project-number">{project.number}</span>
-                <span className="project-open" aria-hidden="true">
-                  <ArrowUpRight size={19} />
-                </span>
+                {project.link && (
+                  <a
+                    className="project-open"
+                    href={project.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`${copy.viewProject}: ${project.name}`}
+                  >
+                    <ArrowUpRight size={19} />
+                  </a>
+                )}
               </div>
               <div className="project-heading">
                 <div>
